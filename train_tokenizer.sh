@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-DATA_ROOT="${TREX_DATA_ROOT:-/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/train}"
+DATA_ROOT="${TREX_DATA_ROOT:-/path/to/train}"
 
 run_train () {
     CONFIG_DIR="$1"
@@ -44,4 +44,4 @@ run_train () {
 }
 
 run_train config_mn 1073741824 65515 trex_1gb_64k
-run_train config_mn_optimal 32212254720 131051 trex_30gb_128k
+# run_train config_mn_optimal 32212254720 131051 trex_30gb_128k
