@@ -1,0 +1,14 @@
+# requirements.txt
+
+# Core dependencies
+transformers==4.46.0
+click
+filelock
+huggingface-hub
+pysimdjson; python_version >= "3.9" and python_version < "3.13"
+omegaconf
+lightgbm
+python-mecab-ko
+
+# Editable install for tokenizer
+-e tokenizers_superbpe/bindings/python/
