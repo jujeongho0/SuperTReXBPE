@@ -2,7 +2,7 @@
 set -euo pipefail
 
 IFS=' ' read -r -a TOKENIZER_PATHS <<< "${TREX_TOKENIZER_PATHS:-./k-exaone-236b-a23b ./trex_1gb_64k}"
-DATA_ROOT="${TREX_VALID_DATA_ROOT:-/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/valid}"
+DATA_ROOT="${TREX_VALID_DATA_ROOT:-/path/to/valid}"
 OUTPUT_ROOT="${TREX_RECORD_ROOT:-./}"
 
 mkdir -p "$OUTPUT_ROOT"
