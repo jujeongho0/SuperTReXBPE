@@ -4,10 +4,6 @@ import yaml
 import argparse
 import os
 
-SEED = 99
-random.seed(SEED)
-np.random.seed(SEED)
-
 # Temperature for the prior distribution, if your distribution is too skewed, you can use a temperature to smooth it
 TEMP = 0.5
 
