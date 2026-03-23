@@ -92,6 +92,17 @@ Training a SuperBPE tokenizer involves two stages:
 2. **Stage 2:** Learn superwords by resuming tokenizer training, but this time skip the whitespace pretokenization step. See [extend_tokenizer.sh](https://github.com/jujeongho0/superTReXbpe/blob/main/extend_tokenizer.sh).
 
 ## Citation 
+```
+@misc{won2026trextokenizerregressionoptimal,
+      title={TREX: Tokenizer Regression for Optimal Data Mixture}, 
+      author={Inho Won and Hangyeol Yoo and Minkyung Cho and Jungyeul Park and Hoyun Song and KyungTae Lim},
+      year={2026},
+      eprint={2601.13588},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2601.13588}, 
+}
+```
 
 ```
 @inproceedings{liu-etal-2025-superbpe,
