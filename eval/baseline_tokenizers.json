@@ -1,0 +1,46 @@
+{
+  "GPT-4o":{
+    "class": "hf",
+    "path": "Xenova/gpt-4o"
+  },
+  "Qwen-3.5":{
+    "class": "hf",
+    "path": "Qwen/Qwen3.5-0.8B"
+  },
+  "GLM-4.7": {
+    "class": "hf",
+    "path": "zai-org/GLM-4.7-Flash"
+  },
+  "Kimi-K2.5":{
+    "class": "hf",
+    "path": "moonshotai/Kimi-K2.5"
+  },
+  "Mistral-4":{
+    "class": "hf",
+    "path": "mistralai/Mistral-Small-4-119B-2603"
+  },
+  "Gemma-3":{
+    "class": "hf",
+    "path": "google/gemma-3-1b-it"
+  },
+  "K-EXAONE": {
+    "class": "hf",
+    "path": "LGAI-EXAONE/K-EXAONE-236B-A23B"
+  },
+  "Solar-Open": {
+    "class": "hf",
+    "path": "upstage/Solar-Open-100B"
+  },
+  "A.X-K1": {
+    "class": "hf",
+    "path": "skt/A.X-K1"
+  },
+  "HyperCLOVAX-SEED": {
+    "class": "hf",
+    "path": "naver-hyperclovax/HyperCLOVAX-SEED-Think-32B"
+  },
+  "TReX": {
+    "class": "hf",
+    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/trex_30gb_128k/n1/post_processed"
+  }
+}
