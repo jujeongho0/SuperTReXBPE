@@ -35,7 +35,7 @@
     "class": "hf",
     "path": "skt/A.X-K1"
   },
-  "HyperCLOVAX-SEED": {
+  "HyperCLOVAX": {
     "class": "hf",
     "path": "naver-hyperclovax/HyperCLOVAX-SEED-Think-32B"
   },
