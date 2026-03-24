@@ -1,4 +1,4 @@
-# superTReXbpe
+# SuperTReXBPE
 
 This repository combines [TReX](https://github.com/HanGyeol-Yoo/TReX) and [SuperBPE](https://github.com/PythonNut/superbpe) into a single pipeline for building optimized tokenizers for language model pretraining.
 
