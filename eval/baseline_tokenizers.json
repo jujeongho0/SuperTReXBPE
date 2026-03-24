@@ -41,22 +41,22 @@
   },
   "TReX": {
     "class": "hf",
-    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/trex_30gb_128k/n1/post_processed"
+    "path": "./trex_30gb_128k/n1/post_processed"
   },
   "SuperTReXBPE-88k": {
     "class": "hf",
-    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/supertrexbpe_30gb_88k_extend_128k/n1/post_processed"
+    "path": "./supertrexbpe_30gb_88k_extend_128k/n1/post_processed"
   },
   "SuperTReXBPE-98k": {
     "class": "hf",
-    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/supertrexbpe_30gb_98k_extend_128k/n1/post_processed"
+    "path": "./supertrexbpe_30gb_98k_extend_128k/n1/post_processed"
   },
   "SuperTReXBPE-108k": {
     "class": "hf",
-    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/supertrexbpe_30gb_108k_extend_128k/n1/post_processed"
+    "path": "./supertrexbpe_30gb_108k_extend_128k/n1/post_processed"
   },
   "SuperTReXBPE-118k": {
     "class": "hf",
-    "path": "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/superTReXbpe/supertrexbpe_30gb_118k_extend_128k/n1/post_processed"
+    "path": "./supertrexbpe_30gb_118k_extend_128k/n1/post_processed"
   }
 }
