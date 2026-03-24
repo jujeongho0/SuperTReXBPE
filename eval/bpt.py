@@ -89,7 +89,7 @@ def save_results_json(results, output_path):
 
 
 if __name__ == "__main__":
-    data_dir = "/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/valid"
+    data_dir = "/path/to/valid"
     tokenizer_config_path = "./eval/baseline_tokenizers.json"
     output_json_path = "./eval/results/tokenizer_bpt_results.json"
 
