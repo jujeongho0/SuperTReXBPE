@@ -55,7 +55,7 @@ run_train () {
     done
 }
 
-run_train config_mn_optimal trex_30gb_128k 90112 131051 supertrexbpe_30gb_88k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 100352 131051 supertrexbpe_30gb_98k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 110592 131051 supertrexbpe_30gb_108k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 120832 131051 supertrexbpe_30gb_118k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 90112 131023 supertrexbpe_30gb_88k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 100352 131023 supertrexbpe_30gb_98k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 110592 131023 supertrexbpe_30gb_108k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 120832 131023 supertrexbpe_30gb_118k_extend_128k
