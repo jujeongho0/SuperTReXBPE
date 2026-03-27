@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-DATA_ROOT="${TREX_DATA_ROOT:-/path/to/train}"
+DATA_ROOT="${TREX_DATA_ROOT:-/workspace/data/NetApp/ISTD_VOL01/lm_team/personal/jeongho/train}"
 
 run_train () {
     CONFIG_DIR="$1"
@@ -45,7 +45,7 @@ run_train () {
             --output_dir "$OUTPUT_DIR" \
             --cfg_file "$CFG_FILE" \
             --vocab_size "$VOCAB_SIZE" \
-            --regex_string "\p{N}{1,3}| ?[^\s\p{L}\p{N}]{2,}[\r\n/]*| +(?!\S)"
+            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?(?:\p{L}\p{M}*(?: \p{L}\p{M}*)*)+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n/]?|\s*[\r\n]|\s+(?!\S)|\s+"
 
         python3 -m train.preprocess \
             --process_tgt "$OUTPUT_DIR" \
