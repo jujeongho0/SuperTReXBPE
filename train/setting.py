@@ -36,16 +36,10 @@ def tokenize_korean(text):
 
 def tokenized_corpus(text_files):
     for path in text_files:
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    yield tokenize_korean(line)
-        except:
-            print(path)
-            exit()
+        with open(path, "r", encoding="utf-8") as f:
+            data = f.read()
+            text = data.strip()
+            yield tokenize_korean(text)
 
 def build_initial_alphabet():
     alphabet = set()
@@ -66,12 +60,22 @@ def build_initial_alphabet():
 
     return sorted(alphabet)
 
+def build_special_tokens():
+    special_tokens = []
+
+    special_tokens += [" " * i for i in range(31, 1, -1)]
+    special_tokens += ["\t" * i for i in range(9, 1, -1)]
+    special_tokens += ["\n" * i for i in range(9, 1, -1)]
+
+    return special_tokens
+
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(BPE())
     trainer = BpeTrainer(
-        show_progress=True,
-        initial_alphabet=build_initial_alphabet(), # FIXME
         vocab_size=vocab_size,
+        show_progress=True,
+        special_tokens=build_special_tokens(), # FIXME
+        initial_alphabet=build_initial_alphabet(), # FIXME
     )
 
     tokenizer.normalizer = normalizers.NFC()
