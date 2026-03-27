@@ -81,7 +81,11 @@ def build_initial_alphabet():
     return sorted(alphabet)
 
 def build_special_tokens():
-    special_tokens = []
+    special_tokens = [
+        "<|startoftext|>", # bos_token
+        "<|return|>", # eos_token
+        "<|endoftext|>", # pad_token
+    ]
 
     special_tokens += [" " * i for i in range(31, 1, -1)]
     special_tokens += ["\t" * i for i in range(9, 1, -1)]
