@@ -25,28 +25,6 @@ def main(
     # FIXME
     new_tok.add_tokens(
         AddedToken(
-            content="<|startoftext|>",
-            rstrip=False,
-            lstrip=False,
-            single_word=False,
-            normalized=False,
-            special=True
-        )
-    )
-
-    new_tok.add_tokens(
-        AddedToken(
-            content="<|endoftext|>",
-            rstrip=False,
-            lstrip=False,
-            single_word=False,
-            normalized=False,
-            special=True
-        )
-    )
-
-    new_tok.add_tokens(
-        AddedToken(
             content="<|reserved_1|>",
             rstrip=False,
             lstrip=False,
@@ -59,17 +37,6 @@ def main(
     new_tok.add_tokens(
         AddedToken(
             content="<|reserved_2|>",
-            rstrip=False,
-            lstrip=False,
-            single_word=False,
-            normalized=False,
-            special=True
-        )
-    )
-
-    new_tok.add_tokens(
-        AddedToken(
-            content="<|return|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
