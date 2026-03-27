@@ -47,7 +47,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131053|>",
+            content="<|reserved_1|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -58,7 +58,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131054|>",
+            content="<|reserved_2|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -91,7 +91,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131057|>",
+            content="<|reserved_3|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -146,7 +146,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131062|>",
+            content="<|reserved_4|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -157,7 +157,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131063|>",
+            content="<|reserved_5|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -168,7 +168,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131064|>",
+            content="<|reserved_6|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -190,7 +190,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131066|>",
+            content="<|reserved_7|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -201,7 +201,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131067|>",
+            content="<|reserved_8|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -212,7 +212,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131068|>",
+            content="<|reserved_9|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -223,7 +223,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131069|>",
+            content="<|reserved_10|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
@@ -234,7 +234,7 @@ def main(
 
     new_tok.add_tokens(
         AddedToken(
-            content="<|reserved_131070|>",
+            content="<|reserved_11|>",
             rstrip=False,
             lstrip=False,
             single_word=False,
