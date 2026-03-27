@@ -19,14 +19,27 @@ def tokenize_korean(text):
 
     for m in _HANGUL_RE.finditer(text):
         start, end = m.span()
-
         if start > last:
             pieces.append(text[last:start])
 
         korean_chunk = text[start:end]
-        morphs = mecab.morphs(korean_chunk)
-        pieces.append("▁".join(morphs))
+        tokens = []
+        morphs = mecab.pos(korean_chunk)
 
+        buffer = ""
+        for morph, pos in morphs:
+            if pos.startswith('J') or pos.startswith('E'):
+                if buffer:
+                    tokens.append(buffer)
+                    buffer = ""
+                tokens.append(morph)
+            else:
+                buffer += morph
+
+        if buffer:
+            tokens.append(buffer)
+
+        pieces.append("▁".join(tokens))
         last = end
 
     if last < len(text):
@@ -36,10 +49,17 @@ def tokenize_korean(text):
 
 def tokenized_corpus(text_files):
     for path in text_files:
+        texts = []
         with open(path, "r", encoding="utf-8") as f:
-            data = f.read()
-            text = data.strip()
-            yield tokenize_korean(text)
+            for line in f:
+                text = line.strip()
+                if not text:
+                    texts.append("")
+                    continue
+
+                texts.append(tokenize_korean(text))
+        
+        yield "\n".join(texts).strip()
 
 def build_initial_alphabet():
     alphabet = set()
