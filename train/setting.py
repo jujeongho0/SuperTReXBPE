@@ -28,7 +28,7 @@ def tokenize_korean(text):
 
         buffer = ""
         for morph, pos in morphs:
-            if pos.startswith('J') or pos.startswith('E'):
+            if pos.startswith(('J', 'E', 'X')):
                 if buffer:
                     tokens.append(buffer)
                     buffer = ""
