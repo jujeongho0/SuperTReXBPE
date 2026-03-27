@@ -111,9 +111,10 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
 def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(BPE())
     trainer = BpeTrainer(
-        show_progress=True,
-        initial_alphabet=build_initial_alphabet(), # FIXME
         vocab_size=vocab_size,
+        show_progress=True,
+        special_tokens=build_special_tokens(), # FIXME
+        initial_alphabet=build_initial_alphabet(), # FIXME
     )
 
     tokenizer.normalizer = normalizers.NFC()
