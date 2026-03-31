@@ -97,10 +97,16 @@ def build_initial_alphabet():
 
     return sorted(alphabet)
 
+SPECIAL_TOKENS = build_special_tokens()
+INITIAL_ALPHABET = build_initial_alphabet()
+HEX_TOKENS = [f"<0x{i:02X}>" for i in range(256)]
+LIMIT_ALPHABET = 1000 + len(INITIAL_ALPHABET)
+
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(
         BPE(
             unk_token="<unk>",
+            fuse_unk=True,
             byte_fallback=True,
         )
     )
@@ -125,13 +131,15 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     
     tokenizer.decoder = decoders.Sequence([
         decoders.ByteFallback(),
+        decoders.Fuse(),
     ])
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
+        special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
+        limit_alphabet=LIMIT_ALPHABET,
+        initial_alphabet=INITIAL_ALPHABET,
         show_progress=True,
-        special_tokens=build_special_tokens() + [f"<0x{i:02X}>" for i in range(256)],
-        initial_alphabet=build_initial_alphabet(),
     )
 
     iterator = tokenized_corpus(text_files)
@@ -143,6 +151,7 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     tokenizer = Tokenizer(
         BPE(
             unk_token="<unk>",
+            fuse_unk=True,
             byte_fallback=True,
         )
     )
@@ -161,13 +170,15 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     
     tokenizer.decoder = decoders.Sequence([
         decoders.ByteFallback(),
+        decoders.Fuse(),
     ])
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
+        special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
+        limit_alphabet=LIMIT_ALPHABET,
+        initial_alphabet=INITIAL_ALPHABET,
         show_progress=True,
-        special_tokens=build_special_tokens() + [f"<0x{i:02X}>" for i in range(256)],
-        initial_alphabet=build_initial_alphabet(),
     )
 
     tokenizer.train(text_files, trainer)
