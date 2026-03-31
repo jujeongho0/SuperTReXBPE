@@ -14,7 +14,6 @@ out_pkl = "./trex_1gb_64k_lang_results.pkl"
 config_dir = "./config_mn"
 
 baseline = pd.read_pickle("./k-exaone-236b-a23b_lang_results.pkl") # create it using calculate_length.sh
-
 rows = []
 for fp in Path(config_dir).glob("n*.yaml"):
     with fp.open("r", encoding="utf-8") as f:
@@ -46,7 +45,7 @@ y_train = prepare_arr_y_from_df(Y_train, baseline)
 
 y_train = y_train.mean(axis=1, keepdims=True)
 
-num_valid_sample = 64 # FIXME
+num_valid_sample = 32 # FIXME
 x_train, x_valid = x_train[:-num_valid_sample, :], x_train[-num_valid_sample:, :]
 y_train, y_valid = y_train[:-num_valid_sample, :], y_train[-num_valid_sample:, :]
 
@@ -141,16 +140,17 @@ def save_config(output_folder, optimal_data_mixture):
 np.random.seed(42)
 
 # FIXME
-prior_dist = [
-    0.1666666666666666,
-    0.1666666666666666,
-    0.1666666666666666,
-    0.1666666666666666,
-    0.1666666666666666,
-    0.1666666666666666,
-]
+prior_dist = np.array([
+    0.35,
+    0.45,
+    0.025,
+    0.025,
+    0.1,
+    0.05,
+])
 
-samples = np.random.dirichlet(prior_dist * 1, 50000000)
+scale = 20 # FIXME
+samples = np.random.dirichlet(prior_dist * scale, 50000000)
 
 all_d_preds = []
 
@@ -158,19 +158,20 @@ pred = reg.predict(samples)
 all_d_preds.append(pred)
 
 o = np.column_stack(all_d_preds)
-
-k = 1024 # FIXME
 col = o[:, 0]
-topk_idx = np.argsort(col)[:k]
-topk_vals = col[topk_idx]
 
-print("Top-k indices:", topk_idx)
-print("Top-k values:", topk_vals)
+for k in [8, 64, 512]: # FIXME
+    print("K:", k)
 
-optimal_data_mixture = samples[topk_idx].mean(0)
-print("Optimal Data Mixture : ", optimal_data_mixture)
+    topk_idx = np.argsort(col)[:k]
+    topk_vals = col[topk_idx]
+    # print("Top-k indices:", topk_idx)
+    # print("Top-k values:", topk_vals)
 
-save_config(
-    optimal_data_mixture=optimal_data_mixture,
-    output_folder=f"{config_dir}_optimal"
-)
+    optimal_data_mixture = samples[topk_idx].mean(0)
+    print("Optimal Data Mixture:", optimal_data_mixture)
+
+    save_config(
+        optimal_data_mixture=optimal_data_mixture,
+        output_folder=f"{config_dir}_top{k}"
+    )
