@@ -37,11 +37,11 @@ def get_token_distribution():
     
     # FIXME
     train = {
-        "korean": 0.3,
-        "english": 0.4,
-        "chinese": 0.05,
-        "japanese": 0.05,
-        "code": 0.15,
+        "korean": 0.35,
+        "english": 0.45,
+        "chinese": 0.025,
+        "japanese": 0.025,
+        "code": 0.1,
         "math": 0.05,
     }
     # valid cannot be ignored if you want the generated config is evaluated on the target set
@@ -188,7 +188,6 @@ def generate_config_from_prior(output_paths, prior_config):
             f.write("valid:\n")
             f.write(valid_group)
             f.write("\n")
-            f.write(f"seed: {SEED}\n")
             f.write(f"temperature: {TEMP}\n")
             f.write(f"min_strength: {MIN_STRENGH}\n")
             f.write(f"max_strength: {MAX_STRENGH}\n")
