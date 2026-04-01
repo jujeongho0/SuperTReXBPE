@@ -39,7 +39,7 @@ def tokenize_korean(text):
         if buffer:
             tokens.append(buffer)
 
-        pieces.append("▁".join(tokens))
+        pieces.append("▃".join(tokens))
         last = end
 
     if last < len(text):
@@ -69,9 +69,10 @@ def build_special_tokens():
         "<|endoftext|>", # pad_token
     ]
 
-    special_tokens += [" " * i for i in range(31, 1, -1)]
-    special_tokens += ["\t" * i for i in range(9, 1, -1)]
-    special_tokens += ["\n" * i for i in range(9, 1, -1)]
+    special_tokens += ["▁" * i for i in range(2, 30)]
+    special_tokens += ["▃" * i for i in range(1, 10)]
+    special_tokens += ["\t" * i for i in range(1, 10)]
+    special_tokens += ["\r▃" * i for i in range(1, 10)]
     
     return special_tokens
 
@@ -112,7 +113,9 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     )
 
     tokenizer.normalizer = normalizers.Sequence([
-        normalizers.NFC(), 
+        normalizers.NFC(),
+        normalizers.Replace(" ", "▁"),
+        normalizers.Replace("\n", "▂"),
     ])
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
@@ -123,13 +126,15 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
         ),
         # FIXME: For tokenize_korean()
         pre_tokenizers.Split(
-            pattern=Regex("▁"),
+            pattern=Regex("▃"),
             behavior="removed",
             invert=False,
         ),
     ])
     
     tokenizer.decoder = decoders.Sequence([
+        decoders.Replace("▁", " "),
+        decoders.Replace("▂", "\n"),
         decoders.ByteFallback(),
         decoders.Fuse(),
     ])
@@ -157,7 +162,9 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     )
 
     tokenizer.normalizer = normalizers.Sequence([
-        normalizers.NFC(), 
+        normalizers.NFC(),
+        normalizers.Replace(" ", "▁"),
+        normalizers.Replace("\n", "▂"),
     ])
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
@@ -169,6 +176,8 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     ])
     
     tokenizer.decoder = decoders.Sequence([
+        decoders.Replace("▁", " "),
+        decoders.Replace("▂", "\n"),
         decoders.ByteFallback(),
         decoders.Fuse(),
     ])
