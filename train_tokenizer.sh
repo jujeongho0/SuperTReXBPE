@@ -33,7 +33,7 @@ run_train () {
             --cfg_file "$CFG_FILE" \
             --num_bytes "$DATA_BYTES" \
             --vocab_size "$VOCAB_SIZE" \
-            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+"
+            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r▂\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}|▁?[^▁\t▃\r\f\v\p{L}\p{N}]+[\r▂]?|[▁\t▃\r\f\v]*[\r▂]|[▁\t▃\r\f\v]+(?![^▁\t▃\r\f\v])|[▁\t▃\r\f\v]+"
 
         python3 -m train.preprocess \
             --process_tgt "$OUTPUT_DIR" \
@@ -43,5 +43,5 @@ run_train () {
     done
 }
 
-run_train config_mn 1073741824 65487 trex_1gb_64k
-# run_train config_mn_optimal 32212254720 131023 trex_30gb_128k
+run_train config_mn 1073741824 65200 trex_1gb_64k
+# run_train config_mn_optimal 32212254720 130736 trex_30gb_128k
