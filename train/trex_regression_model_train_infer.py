@@ -172,5 +172,5 @@ print("Optimal Data Mixture:", optimal_data_mixture)
 
 save_config(
     optimal_data_mixture=optimal_data_mixture,
-    output_folder=f"{config_dir}_top{k}"
+    output_folder=f"{config_dir}_optimal"
 )
