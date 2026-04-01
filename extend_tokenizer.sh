@@ -45,7 +45,7 @@ run_train () {
             --output_dir "$OUTPUT_DIR" \
             --cfg_file "$CFG_FILE" \
             --vocab_size "$VOCAB_SIZE" \
-            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?(?:\p{L}\p{M}*(?: \p{L}\p{M}*)*)+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+"
+            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r▂\p{L}\p{N}]?(?:\p{L}\p{M}*(?:▁\p{L}\p{M}*)*)+|\p{N}{1,3}|▁?[^▁\t▃\r\f\v\p{L}\p{N}]+[\r▂]?|[▁\t▃\r\f\v]*[\r▂]|[▁\t▃\r\f\v]+(?![^▁\t▃\r\f\v])|[▁\t▃\r\f\v]+"
 
         python3 -m train.preprocess \
             --process_tgt "$OUTPUT_DIR" \
@@ -55,7 +55,4 @@ run_train () {
     done
 }
 
-run_train config_mn_optimal trex_30gb_128k 90112 131023 supertrexbpe_30gb_88k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 100352 131023 supertrexbpe_30gb_98k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 110592 131023 supertrexbpe_30gb_108k_extend_128k
-run_train config_mn_optimal trex_30gb_128k 120832 131023 supertrexbpe_30gb_118k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 90112 130736 supertrexbpe_30gb_88k_extend_128k
