@@ -160,18 +160,17 @@ all_d_preds.append(pred)
 o = np.column_stack(all_d_preds)
 col = o[:, 0]
 
-for k in [8, 64, 512]: # FIXME
-    print("K:", k)
+k = 512 # FIXME
 
-    topk_idx = np.argsort(col)[:k]
-    topk_vals = col[topk_idx]
-    # print("Top-k indices:", topk_idx)
-    # print("Top-k values:", topk_vals)
+topk_idx = np.argsort(col)[:k]
+topk_vals = col[topk_idx]
+print("Top-k indices:", topk_idx)
+print("Top-k values:", topk_vals)
 
-    optimal_data_mixture = samples[topk_idx].mean(0)
-    print("Optimal Data Mixture:", optimal_data_mixture)
+optimal_data_mixture = samples[topk_idx].mean(0)
+print("Optimal Data Mixture:", optimal_data_mixture)
 
-    save_config(
-        optimal_data_mixture=optimal_data_mixture,
-        output_folder=f"{config_dir}_top{k}"
-    )
+save_config(
+    optimal_data_mixture=optimal_data_mixture,
+    output_folder=f"{config_dir}_top{k}"
+)
