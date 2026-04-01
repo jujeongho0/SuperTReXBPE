@@ -33,7 +33,7 @@ run_train () {
             --cfg_file "$CFG_FILE" \
             --num_bytes "$DATA_BYTES" \
             --vocab_size "$VOCAB_SIZE" \
-            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r▂\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}|▁?[^▁\t▃\r\f\v\p{L}\p{N}]+[\r▂]?|[▁\t▃\r\f\v]*[\r▂]|[▁\t▃\r\f\v]+(?![^▁\t▃\r\f\v])|[▁\t▃\r\f\v]+"
+            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r▂\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}|▁?[^▁▃\s\p{L}\p{N}]+[\r▂]?|[▁▃\s]*[\r▂]|[▁▃\s]+(?![^▁▃\s])|[▁▃\s]+"
 
         python3 -m train.postprocess \
             --process_tgt "$OUTPUT_DIR" \
