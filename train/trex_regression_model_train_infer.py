@@ -140,6 +140,14 @@ def save_config(output_folder, optimal_data_mixture):
 np.random.seed(42)
 
 # FIXME
+# prior_dist = np.array([
+#     0.1666666666666666,
+#     0.1666666666666666,
+#     0.1666666666666666,
+#     0.1666666666666666,
+#     0.1666666666666666,
+#     0.1666666666666666,
+# ])
 prior_dist = np.array([
     0.35,
     0.45,
@@ -161,7 +169,6 @@ o = np.column_stack(all_d_preds)
 col = o[:, 0]
 
 k = 512 # FIXME
-
 topk_idx = np.argsort(col)[:k]
 topk_vals = col[topk_idx]
 print("Top-k indices:", topk_idx)
