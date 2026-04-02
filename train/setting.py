@@ -13,6 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent
 _HANGUL_RE = re.compile(r"[가-힣]+")
 mecab = MeCab()
 
+SPACE_TOKEN = "▁"
+NEW_LINE_TOKEN = "▂"
+JOSA_TOKEN = "▃"
+
 def tokenize_korean(text):
     pieces = []
     last = 0
@@ -39,7 +43,7 @@ def tokenize_korean(text):
         if buffer:
             tokens.append(buffer)
 
-        pieces.append("▃".join(tokens))
+        pieces.append(JOSA_TOKEN.join(tokens))
         last = end
 
     if last < len(text):
@@ -56,9 +60,7 @@ def tokenized_corpus(text_files):
                 if not text:
                     texts.append("")
                     continue
-
                 texts.append(tokenize_korean(text))
-        
         yield "\n".join(texts).strip()
 
 def build_special_tokens():
@@ -69,10 +71,10 @@ def build_special_tokens():
         "<|endoftext|>", # pad_token
     ]
 
-    special_tokens += ["▁" * i for i in range(2, 30)]
-    special_tokens += ["▃" * i for i in range(1, 10)]
+    special_tokens += [SPACE_TOKEN * i for i in range(2, 30)]
+    special_tokens += [NEW_LINE_TOKEN * i for i in range(1, 10)]
     special_tokens += ["\t" * i for i in range(1, 10)]
-    special_tokens += ["\r▃" * i for i in range(1, 10)]
+    special_tokens += [f"\r{NEW_LINE_TOKEN}" * i for i in range(1, 10)]
     
     return special_tokens
 
@@ -114,8 +116,8 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
 
     tokenizer.normalizer = normalizers.Sequence([
         normalizers.NFC(),
-        normalizers.Replace(" ", "▁"),
-        normalizers.Replace("\n", "▂"),
+        normalizers.Replace(" ", SPACE_TOKEN),
+        normalizers.Replace("\n", NEW_LINE_TOKEN),
     ])
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
@@ -124,17 +126,16 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
             behavior="isolated",
             invert=False,
         ),
-        # FIXME: For tokenize_korean()
         pre_tokenizers.Split(
-            pattern=Regex("▃"),
+            pattern=Regex(JOSA_TOKEN),
             behavior="removed",
             invert=False,
         ),
     ])
     
     tokenizer.decoder = decoders.Sequence([
-        decoders.Replace("▁", " "),
-        decoders.Replace("▂", "\n"),
+        decoders.Replace(SPACE_TOKEN, " "),
+        decoders.Replace(NEW_LINE_TOKEN, "\n"),
         decoders.ByteFallback(),
         decoders.Fuse(),
     ])
@@ -163,8 +164,8 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
 
     tokenizer.normalizer = normalizers.Sequence([
         normalizers.NFC(),
-        normalizers.Replace(" ", "▁"),
-        normalizers.Replace("\n", "▂"),
+        normalizers.Replace(" ", SPACE_TOKEN),
+        normalizers.Replace("\n", NEW_LINE_TOKEN),
     ])
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
@@ -176,8 +177,8 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     ])
     
     tokenizer.decoder = decoders.Sequence([
-        decoders.Replace("▁", " "),
-        decoders.Replace("▂", "\n"),
+        decoders.Replace(SPACE_TOKEN, " "),
+        decoders.Replace(NEW_LINE_TOKEN, "\n"),
         decoders.ByteFallback(),
         decoders.Fuse(),
     ])
