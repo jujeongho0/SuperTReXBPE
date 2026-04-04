@@ -140,14 +140,6 @@ def save_config(output_folder, optimal_data_mixture):
 np.random.seed(42)
 
 # FIXME
-# prior_dist = np.array([
-#     0.1666666666666666,
-#     0.1666666666666666,
-#     0.1666666666666666,
-#     0.1666666666666666,
-#     0.1666666666666666,
-#     0.1666666666666666,
-# ])
 prior_dist = np.array([
     0.35,
     0.45,
