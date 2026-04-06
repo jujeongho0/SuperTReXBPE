@@ -53,18 +53,18 @@ To launch a single experiment manually:
 ```bash
 python3 -m train.train \
   --data_root /path/to/train \
-  --output_dir ./tokenizers/example_tokenizer \
+  --output_dir /path/to/tokenizer \
   --cfg_file ./configs/domain_mix.yaml \
   --num_bytes 1073741824 \
-  --vocab_size 64000 \
-  --regex_string "[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]*[\p{Ll}\p{Lm}\p{Lo}\p{M}]+|[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]+[\p{Ll}\p{Lm}\p{Lo}\p{M}]*|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n/]*|\s*[\r\n]+|\s+(?!\S)|\s+"
+  --vocab_size 65518 \
+  --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n▂\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}|▁?[^\s▁▂\p{L}\p{N}]+[\r\n▂]?|[\s▁▂]*[\r\n▂]|(?=[\s▁▂]*$)[\s▁▂]+|[\s▁▂]+"
 ```
 
 After training, run post-processing to build the Hugging Face tokenizer artifact:
 
 ```bash
 python3 -m train.preprocess \
-  --process_tgt ./tokenizers/example_tokenizer \
+  --process_tgt /path/to/tokenizer \
   --output_dir ./tokenizers/example_tokenizer/post_processed
 ```
 
@@ -77,7 +77,7 @@ See [train_tokenizer.sh](https://github.com/jujeongho0/superTReXbpe/blob/main/tr
 ```bash
 python3 -m train.calculate_length \
   --ds_root /path/to/valid \
-  --tok_root /path/to/tokenizers \
+  --tok_root /path/to/tokenizer \
   --out_pkl ./artifacts/token_lengths.pkl
 ```
 

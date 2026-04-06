@@ -72,9 +72,8 @@ def build_special_tokens():
     ]
 
     special_tokens += [SPACE_TOKEN * i for i in range(2, 30)]
-    special_tokens += [NEW_LINE_TOKEN * i for i in range(1, 10)]
-    special_tokens += ["\t" * i for i in range(1, 10)]
-    special_tokens += [f"\r{NEW_LINE_TOKEN}" * i for i in range(1, 10)]
+    special_tokens += [NEW_LINE_TOKEN * i for i in range(2, 10)]
+    special_tokens += ["\t" * i for i in range(2, 10)]
     
     return special_tokens
 
@@ -103,7 +102,7 @@ def build_initial_alphabet():
 SPECIAL_TOKENS = build_special_tokens()
 INITIAL_ALPHABET = build_initial_alphabet()
 HEX_TOKENS = [f"<0x{i:02X}>" for i in range(256)]
-LIMIT_ALPHABET = 1000 + len(INITIAL_ALPHABET)
+LIMIT_ALPHABET = 256 + len(INITIAL_ALPHABET)
 
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(
@@ -142,6 +141,7 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
+        min_frequency=2,
         special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
         limit_alphabet=LIMIT_ALPHABET,
         initial_alphabet=INITIAL_ALPHABET,
@@ -185,6 +185,7 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
+        min_frequency=2,
         special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
         limit_alphabet=LIMIT_ALPHABET,
         initial_alphabet=INITIAL_ALPHABET,

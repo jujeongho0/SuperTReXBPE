@@ -43,5 +43,5 @@ run_train () {
     done
 }
 
-run_train config_mn 1073741824 65200 trex_1gb_64k
-# run_train config_mn_optimal 32212254720 130736 trex_30gb_128k
+run_train config_mn 1073741824 65518 trex_1gb_64k
+# run_train config_mn_optimal 32212254720 131054 trex_30gb_128k
