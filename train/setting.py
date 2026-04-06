@@ -13,8 +13,6 @@ BASE_DIR = Path(__file__).resolve().parent
 _HANGUL_RE = re.compile(r"[가-힣]+")
 mecab = MeCab()
 
-SPACE_TOKEN = "▁"
-NEW_LINE_TOKEN = "▂"
 JOSA_TOKEN = "▃"
 
 def tokenize_korean(text):
@@ -65,14 +63,13 @@ def tokenized_corpus(text_files):
 
 def build_special_tokens():
     special_tokens = [
-        "<unk>", # unk_token
         "<|startoftext|>", # bos_token
         "<|return|>", # eos_token
         "<|endoftext|>", # pad_token
     ]
 
-    special_tokens += [SPACE_TOKEN * i for i in range(2, 30)]
-    special_tokens += [NEW_LINE_TOKEN * i for i in range(2, 10)]
+    special_tokens += [" " * i for i in range(2, 30)]
+    special_tokens += ["\n" * i for i in range(2, 10)]
     special_tokens += ["\t" * i for i in range(2, 10)]
     
     return special_tokens
@@ -101,23 +98,11 @@ def build_initial_alphabet():
 
 SPECIAL_TOKENS = build_special_tokens()
 INITIAL_ALPHABET = build_initial_alphabet()
-HEX_TOKENS = [f"<0x{i:02X}>" for i in range(256)]
-LIMIT_ALPHABET = 256 + len(INITIAL_ALPHABET)
 
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
-    tokenizer = Tokenizer(
-        BPE(
-            unk_token="<unk>",
-            fuse_unk=True,
-            byte_fallback=True,
-        )
-    )
+    tokenizer = Tokenizer(BPE())
 
-    tokenizer.normalizer = normalizers.Sequence([
-        normalizers.NFC(),
-        normalizers.Replace(" ", SPACE_TOKEN),
-        normalizers.Replace("\n", NEW_LINE_TOKEN),
-    ])
+    tokenizer.normalizer = normalizers.NFC()
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
         pre_tokenizers.Split(
@@ -130,21 +115,22 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
             behavior="removed",
             invert=False,
         ),
+        pre_tokenizers.ByteLevel(
+            add_prefix_space=False,
+            trim_offsets=False,
+            use_regex=False,
+        ),
     ])
+
+    tokenizer.post_processor = processors.ByteLevel(add_prefix_space=True, trim_offsets=False, use_regex=True)
     
-    tokenizer.decoder = decoders.Sequence([
-        decoders.Replace(SPACE_TOKEN, " "),
-        decoders.Replace(NEW_LINE_TOKEN, "\n"),
-        decoders.ByteFallback(),
-        decoders.Fuse(),
-    ])
+    tokenizer.decoder = decoders.ByteLevel(add_prefix_space=True, trim_offsets=True, use_regex=True)
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
-        limit_alphabet=LIMIT_ALPHABET,
-        initial_alphabet=INITIAL_ALPHABET,
+        special_tokens=[*SPECIAL_TOKENS, *INITIAL_ALPHABET],
+        initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
 
@@ -154,19 +140,9 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     return tokenizer
 
 def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
-    tokenizer = Tokenizer(
-        BPE(
-            unk_token="<unk>",
-            fuse_unk=True,
-            byte_fallback=True,
-        )
-    )
+    tokenizer = Tokenizer(BPE())
 
-    tokenizer.normalizer = normalizers.Sequence([
-        normalizers.NFC(),
-        normalizers.Replace(" ", SPACE_TOKEN),
-        normalizers.Replace("\n", NEW_LINE_TOKEN),
-    ])
+    tokenizer.normalizer = normalizers.NFC()
     
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
         pre_tokenizers.Split(
@@ -174,21 +150,22 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
             behavior="isolated",
             invert=False,
         ),
+        pre_tokenizers.ByteLevel(
+            add_prefix_space=False,
+            trim_offsets=False,
+            use_regex=False,
+        ),
     ])
     
-    tokenizer.decoder = decoders.Sequence([
-        decoders.Replace(SPACE_TOKEN, " "),
-        decoders.Replace(NEW_LINE_TOKEN, "\n"),
-        decoders.ByteFallback(),
-        decoders.Fuse(),
-    ])
+    tokenizer.post_processor = processors.ByteLevel(add_prefix_space=True, trim_offsets=False, use_regex=True)
+
+    tokenizer.decoder = decoders.ByteLevel(add_prefix_space=True, trim_offsets=True, use_regex=True)
 
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[*SPECIAL_TOKENS, *HEX_TOKENS],
-        limit_alphabet=LIMIT_ALPHABET,
-        initial_alphabet=INITIAL_ALPHABET,
+        special_tokens=[*SPECIAL_TOKENS, *INITIAL_ALPHABET],
+        initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
 

@@ -45,7 +45,7 @@ run_train () {
             --output_dir "$OUTPUT_DIR" \
             --cfg_file "$CFG_FILE" \
             --vocab_size "$VOCAB_SIZE" \
-            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r▂\p{L}\p{N}]?(?:\p{L}\p{M}*(?:▁\p{L}\p{M}*)*)+|\p{N}{1,3}|▁?[^▁▂\s\p{L}\p{N}]+[\r▂]?|[▁▂\s]*[\r▂]|[▁▂\s]+(?![^▁▂\s])|[▁▂\s]+"
+            --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?(?:\p{L}\p{M}*(?: \p{L}\p{M}*)*)+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]?|\s*[\r\n]|\s+(?!\S)|\s+"
 
         python3 -m train.postprocess \
             --process_tgt "$OUTPUT_DIR" \
