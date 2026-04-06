@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-JOSA_TOKEN = "▃"
+JOSA_TOKEN = "▁"
 
 def build_initial_alphabet():
     alphabet = set()
