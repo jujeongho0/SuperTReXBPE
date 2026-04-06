@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent
 _HANGUL_RE = re.compile(r"[가-힣]+")
 mecab = MeCab()
 
-JOSA_TOKEN = "▃"
+JOSA_TOKEN = "▁"
 
 def tokenize_korean(text):
     pieces = []
