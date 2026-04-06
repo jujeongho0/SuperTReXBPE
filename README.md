@@ -57,7 +57,7 @@ python3 -m train.train \
   --cfg_file ./configs/domain_mix.yaml \
   --num_bytes 1073741824 \
   --vocab_size 65518 \
-  --regex_string "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n▂\p{L}\p{N}]?[\p{L}\p{M}]+|\p{N}{1,3}|▁?[^\s▁▂\p{L}\p{N}]+[\r\n▂]?|[\s▁▂]*[\r\n▂]|(?=[\s▁▂]*$)[\s▁▂]+|[\s▁▂]+"
+  --regex_string REGEX_STRING
 ```
 
 After training, run post-processing to build the Hugging Face tokenizer artifact:
