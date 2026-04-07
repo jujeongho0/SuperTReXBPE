@@ -31,7 +31,7 @@ def build_initial_alphabet():
     return sorted(alphabet)
 
 
-INITIAL_ALPHABET = build_initial_alphabet()
+# INITIAL_ALPHABET = build_initial_alphabet()
 
 
 @click.command()
@@ -271,32 +271,32 @@ def main(
 
     config.update(update_data)
 
-    new_decoder = {}
-    for k, v in config["added_tokens_decoder"].items():
-        content = v.get("content")
-        if content in INITIAL_ALPHABET:
-            continue
-        new_decoder[k] = v
+    # new_decoder = {}
+    # for k, v in config["added_tokens_decoder"].items():
+    #     content = v.get("content")
+    #     if content in INITIAL_ALPHABET:
+    #         continue
+    #     new_decoder[k] = v
 
-    config["added_tokens_decoder"] = new_decoder
+    # config["added_tokens_decoder"] = new_decoder
 
     with open(os.path.join(output_dir, "tokenizer_config.json"), "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=4)
 
-    with open(os.path.join(output_dir, "tokenizer.json"), "r", encoding="utf-8") as f:
-        tokenizer_json = json.load(f)
+    # with open(os.path.join(output_dir, "tokenizer.json"), "r", encoding="utf-8") as f:
+    #     tokenizer_json = json.load(f)
 
-    new_added_tokens = []
-    for item in tokenizer_json["added_tokens"]:
-        content = item.get("content")
-        if content in INITIAL_ALPHABET:
-            continue
-        new_added_tokens.append(item)
+    # new_added_tokens = []
+    # for item in tokenizer_json["added_tokens"]:
+    #     content = item.get("content")
+    #     if content in INITIAL_ALPHABET:
+    #         continue
+    #     new_added_tokens.append(item)
 
-    tokenizer_json["added_tokens"] = new_added_tokens
+    # tokenizer_json["added_tokens"] = new_added_tokens
 
-    with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
-        json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
+    # with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
+    #     json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
