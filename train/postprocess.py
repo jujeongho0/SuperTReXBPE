@@ -241,7 +241,6 @@ def main(
 
     config.update(update_data)
 
-    JOSA_TOKEN = "▂"
     HEX_TOKENS = {f"<0x{i:02X}>" for i in range(256)}
 
     new_decoder = {}
@@ -267,21 +266,6 @@ def main(
         new_added_tokens.append(item)
 
     tokenizer_json["added_tokens"] = new_added_tokens
-
-    new_list = []
-    for item in tokenizer_json["pre_tokenizer"]["pretokenizers"]:
-        typ = item.get("type")
-
-        if typ == "Split":
-            pattern = item.get("pattern")
-            pattern_regex = pattern.get("Regex")
-
-            if pattern_regex == JOSA_TOKEN:
-                continue
-
-        new_list.append(item)
-
-    tokenizer_json["pre_tokenizer"]["pretokenizers"] = new_list  
 
     with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
         json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
