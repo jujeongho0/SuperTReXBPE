@@ -68,8 +68,8 @@ def build_special_tokens():
     ]
 
     special_tokens += [SPACE_TOKEN * i for i in range(2, 30)]
-    special_tokens += ["\n" * i for i in range(1, 10)]
-    special_tokens += ["\t" * i for i in range(1, 10)]
+    special_tokens += ["\n" * i for i in range(2, 10)]
+    special_tokens += ["\t" * i for i in range(2, 10)]
     
     return special_tokens
 
