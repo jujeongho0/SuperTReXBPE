@@ -41,10 +41,18 @@
   },
   "TReX": {
     "class": "hf",
-    "path": "./trex_30gb_128k/n1/converted"
+    "path": "./trex_30gb_128k/n1/post_processed"
   },
-  "SuperTReXBPE": {
+  "SuperTReXBPE-88k": {
     "class": "hf",
-    "path": "./supertrexbpe_30gb_88k_extend_128k/n1/converted"
+    "path": "./supertrexbpe_30gb_88k_extend_128k/n1/post_processed"
+  },
+  "SuperTReXBPE-98k": {
+    "class": "hf",
+    "path": "./supertrexbpe_30gb_98k_extend_128k/n1/post_processed"
+  },
+  "SuperTReXBPE-108k": {
+    "class": "hf",
+    "path": "./supertrexbpe_30gb_108k_extend_128k/n1/post_processed"
   }
 }
