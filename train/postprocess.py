@@ -268,7 +268,6 @@ def main(
 
     config.update(update_data)
 
-    JOSA_TOKEN = "▁"
     # INITIAL_ALPHABET = build_initial_alphabet()
 
     # new_decoder = {}
@@ -283,8 +282,8 @@ def main(
     with open(os.path.join(output_dir, "tokenizer_config.json"), "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=4)
 
-    with open(os.path.join(output_dir, "tokenizer.json"), "r", encoding="utf-8") as f:
-        tokenizer_json = json.load(f)
+    # with open(os.path.join(output_dir, "tokenizer.json"), "r", encoding="utf-8") as f:
+    #     tokenizer_json = json.load(f)
 
     # new_added_tokens = []
     # for item in tokenizer_json["added_tokens"]:
@@ -295,23 +294,8 @@ def main(
 
     # tokenizer_json["added_tokens"] = new_added_tokens
 
-    new_list = []
-    for item in tokenizer_json["pre_tokenizer"]["pretokenizers"]:
-        typ = item.get("type")
-
-        if typ == "Split":
-            pattern = item.get("pattern")
-            pattern_regex = pattern.get("Regex")
-
-            if pattern_regex == JOSA_TOKEN:
-                continue
-
-        new_list.append(item)
-
-    tokenizer_json["pre_tokenizer"]["pretokenizers"] = new_list  
-
-    with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
-        json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
+    # with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
+    #     json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
