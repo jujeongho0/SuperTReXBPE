@@ -24,7 +24,7 @@ This design allows users to move beyond off-the-shelf tokenizers and build custo
 First, clone the project with:
 ```bash
 git clone --recurse-submodules https://github.com/jujeongho0/SuperTReXBPE.git
-cd superTReXbpe
+cd SuperTReXBPE
 pip install -r requirements.txt
 ```
 We use a custom [fork](https://github.com/alisawuffles/tokenizers-superbpe) of [huggingface/tokenizers](https://github.com/huggingface/tokenizers) which conflicts with the original.
@@ -68,7 +68,7 @@ python3 -m train.preprocess \
   --output_dir ./tokenizers/example_tokenizer/post_processed
 ```
 
-See [train_tokenizer.sh](https://github.com/jujeongho0/superTReXbpe/blob/main/train_tokenizer.sh). (`run_train config_mn {DATA_BYTES} {VOCAB_SIZE} trex_1gb_64k}`)
+See [train_tokenizer.sh](https://github.com/jujeongho0/SuperTReXBPE/blob/main/train_tokenizer.sh). (`run_train config_mn {DATA_BYTES} {VOCAB_SIZE} trex_1gb_64k}`)
 
 ## Calculating Token Length Statistics
 
@@ -88,8 +88,8 @@ The resulting pickle file contains a table where each row corresponds to a token
 ## Tokenizer training
 Training a SuperBPE tokenizer involves two stages:
 
-1. **Stage 1:** Learn subwords by enforcing whitespace pretokenization (equivalent to regular BPE training). See [train_tokenizer.sh](https://github.com/jujeongho0/superTReXbpe/blob/main/train_tokenizer.sh). (`run_train config_mn_optimal {DATA_BYTES} {VOCAB_SIZE} trex_30gb_128k}`)
-2. **Stage 2:** Learn superwords by resuming tokenizer training, but this time skip the whitespace pretokenization step. See [extend_tokenizer.sh](https://github.com/jujeongho0/superTReXbpe/blob/main/extend_tokenizer.sh).
+1. **Stage 1:** Learn subwords by enforcing whitespace pretokenization (equivalent to regular BPE training). See [train_tokenizer.sh](https://github.com/jujeongho0/SuperTReXBPE/blob/main/train_tokenizer.sh). (`run_train config_mn_optimal {DATA_BYTES} {VOCAB_SIZE} trex_30gb_128k}`)
+2. **Stage 2:** Learn superwords by resuming tokenizer training, but this time skip the whitespace pretokenization step. See [extend_tokenizer.sh](https://github.com/jujeongho0/SuperTReXBPE/blob/main/extend_tokenizer.sh).
 
 ## Citation 
 ```
