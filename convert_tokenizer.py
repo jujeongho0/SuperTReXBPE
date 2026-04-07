@@ -4,9 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-SPACE_TOKEN = "▁"
 JOSA_TOKEN = "▂"
-
 HEX_TOKENS = {f"<0x{i:02X}>" for i in range(256)}
 
 
