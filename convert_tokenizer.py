@@ -5,8 +5,7 @@ from pathlib import Path
 from typing import Any
 
 SPACE_TOKEN = "▁"
-NEW_LINE_TOKEN = "▂"
-JOSA_TOKEN = "▃"
+JOSA_TOKEN = "▂"
 
 HEX_TOKENS = {f"<0x{i:02X}>" for i in range(256)}
 
@@ -22,16 +21,6 @@ def save_json(path: Path, data: Any) -> None:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def replace_block_char(value: Any) -> Any:
-    if isinstance(value, str):
-        return value.replace(NEW_LINE_TOKEN, "\n")
-    if isinstance(value, list):
-        return [replace_block_char(v) for v in value]
-    if isinstance(value, dict):
-        return {k: replace_block_char(v) for k, v in value.items()}
-    return value
-
-
 def fix_tokenizer_config(tokenizer_config: dict[str, Any]) -> dict[str, Any]:
     decoder = tokenizer_config.get("added_tokens_decoder")
 
@@ -40,7 +29,6 @@ def fix_tokenizer_config(tokenizer_config: dict[str, Any]) -> dict[str, Any]:
         content = v.get("content")
         if content in HEX_TOKENS:
             continue
-        v = replace_block_char(v)
         new_decoder[k] = v
 
     tokenizer_config["added_tokens_decoder"] = new_decoder
@@ -55,34 +43,10 @@ def fix_added_tokens(tokenizer_json: dict[str, Any]) -> dict[str, Any]:
         content = item.get("content")
         if content in HEX_TOKENS:
             continue
-        item = replace_block_char(item)
         new_added_tokens.append(item)
 
     tokenizer_json["added_tokens"] = new_added_tokens
     return tokenizer_json
-
-
-def fix_normalizer(node: Any) -> Any:
-    new_list = []
-    for item in node["normalizers"]:
-        typ = item.get("type")
-
-        if typ == "Replace":
-            pattern = item.get("pattern")
-            content = item.get("content")
-            pattern_string = pattern.get("String")
-
-            if pattern_string == "\n" and content == NEW_LINE_TOKEN:
-                continue
-            
-            new_list.append(item)
-        
-        else:
-            new_list.append(item)
-
-    node["normalizers"] = new_list    
-
-    return node
 
 
 def fix_pre_tokenizer(node: Any) -> Any:
@@ -96,11 +60,6 @@ def fix_pre_tokenizer(node: Any) -> Any:
 
             if pattern_regex == JOSA_TOKEN:
                 continue
-            
-            pattern_regex = pattern_regex.replace(NEW_LINE_TOKEN, "\\n")
-            pattern_regex = pattern_regex.replace("\\n\\s", "\\s")
-
-            item["pattern"]["Regex"] = pattern_regex
 
             new_list.append(item)
 
@@ -109,60 +68,9 @@ def fix_pre_tokenizer(node: Any) -> Any:
     return node
 
 
-def fix_decoder(node: Any) -> Any:
-    new_list = []
-    for item in node["decoders"]:
-        typ = item.get("type")
-
-        if typ == "Replace":
-            pattern = item.get("pattern")
-            pattern_string = pattern.get("String")
-
-            if pattern_string == NEW_LINE_TOKEN:
-                continue
-            
-            new_list.append(item)
-        
-        else:
-            new_list.append(item)
-
-    node["decoders"] = new_list
-
-    return node
-
-
-def fix_vocab(node: Any) -> Any:
-    new_dict = {}
-    for k, v in node.items():
-        if NEW_LINE_TOKEN in k:
-            new_dict[k.replace(NEW_LINE_TOKEN, "\n")] = v
-
-        else:
-            new_dict[k] = v
-
-    return new_dict
-
-
-def fix_merges(node: Any) -> Any:
-    new_list = []
-    for item in node:
-        left, right = item
-
-        new_list.append([
-            left.replace(NEW_LINE_TOKEN, "\n"),
-            right.replace(NEW_LINE_TOKEN, "\n")
-        ])
-
-    return new_list
-
-
 def fix_tokenizer_json(tokenizer_json: dict[str, Any]) -> dict[str, Any]:
     tokenizer_json = fix_added_tokens(tokenizer_json)
-    tokenizer_json["normalizer"] = fix_normalizer(tokenizer_json["normalizer"])
     tokenizer_json["pre_tokenizer"] = fix_pre_tokenizer(tokenizer_json["pre_tokenizer"])
-    tokenizer_json["decoder"] = fix_decoder(tokenizer_json["decoder"])
-    tokenizer_json["model"]["vocab"] = fix_vocab(tokenizer_json["model"]["vocab"])
-    tokenizer_json["model"]["merges"] = fix_merges(tokenizer_json["model"]["merges"])
 
     return tokenizer_json
 
