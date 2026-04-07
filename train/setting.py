@@ -126,7 +126,7 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[*SPECIAL_TOKENS, *INITIAL_ALPHABET],
+        special_tokens=SPECIAL_TOKENS,
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
@@ -161,7 +161,7 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[*SPECIAL_TOKENS, *INITIAL_ALPHABET],
+        special_tokens=SPECIAL_TOKENS,
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
