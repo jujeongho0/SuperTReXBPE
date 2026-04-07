@@ -23,7 +23,7 @@ This design allows users to move beyond off-the-shelf tokenizers and build custo
 ## Setup
 First, clone the project with:
 ```bash
-git clone --recurse-submodules https://github.com/jujeongho0/superTReXbpe.git
+git clone --recurse-submodules https://github.com/jujeongho0/SuperTReXBPE.git
 cd superTReXbpe
 pip install -r requirements.txt
 ```
