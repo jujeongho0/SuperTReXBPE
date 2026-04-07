@@ -244,10 +244,8 @@ def main(
     JOSA_TOKEN = "▂"
     HEX_TOKENS = {f"<0x{i:02X}>" for i in range(256)}
 
-    decoder = config.get("added_tokens_decoder")
-
     new_decoder = {}
-    for k, v in decoder.items():
+    for k, v in config["added_tokens_decoder"].items():
         content = v.get("content")
         if content in HEX_TOKENS:
             continue
