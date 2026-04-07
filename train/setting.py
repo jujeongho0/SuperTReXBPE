@@ -53,15 +53,12 @@ def tokenize_korean(text):
 
 def tokenized_corpus(text_files):
     for path in text_files:
-        texts = []
         with open(path, "r", encoding="utf-8") as f:
             for line in f:
                 text = line.strip()
                 if not text:
-                    texts.append("")
                     continue
-                texts.append(tokenize_korean(text))
-        yield "\n".join(texts).strip()
+                yield tokenize_korean(text)
 
 def build_special_tokens():
     special_tokens = [
