@@ -3,6 +3,33 @@ from tokenizers import AddedToken
 import click
 import json
 import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+def build_initial_alphabet():
+    alphabet = set()
+
+    alphabet.update(chr(c) for c in range(0xAC00, 0xD7A4)) # Hangul Syllables
+    alphabet.update(chr(c) for c in range(0x3131, 0x3164)) # Hangul Compatibility Jamo
+
+    # Hanja
+    with open(BASE_DIR / "../data/hanja_level1.txt", "r", encoding="utf-8") as f:
+        alphabet.update(line.strip() for line in f if line.strip())
+
+    # Kanji
+    with open(BASE_DIR / "../data/kanji.txt", "r", encoding="utf-8") as f:
+        alphabet.update(line.strip() for line in f if line.strip())
+
+    # Hiragana
+    alphabet.update(chr(c) for c in range(0x3041, 0x3094))
+
+    # Katakana
+    alphabet.update(chr(c) for c in range(0x30A1, 0x30FA))
+
+    return sorted(alphabet)
+
 
 @click.command()
 @click.option(
@@ -241,8 +268,51 @@ def main(
 
     config.update(update_data)
 
+    JOSA_TOKEN = "▁"
+    INITIAL_ALPHABET = build_initial_alphabet()
+
+    new_decoder = {}
+    for k, v in config["added_tokens_decoder"].items():
+        content = v.get("content")
+        if content in INITIAL_ALPHABET:
+            continue
+        new_decoder[k] = v
+
+    config["added_tokens_decoder"] = new_decoder
+
     with open(os.path.join(output_dir, "tokenizer_config.json"), "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=4)
+
+    with open(os.path.join(output_dir, "tokenizer.json"), "r", encoding="utf-8") as f:
+        tokenizer_json = json.load(f)
+
+    new_added_tokens = []
+    for item in tokenizer_json["added_tokens"]:
+        content = item.get("content")
+        if content in INITIAL_ALPHABET:
+            continue
+        new_added_tokens.append(item)
+
+    tokenizer_json["added_tokens"] = new_added_tokens
+
+    new_list = []
+    for item in tokenizer_json["pre_tokenizer"]["pretokenizers"]:
+        typ = item.get("type")
+
+        if typ == "Split":
+            pattern = item.get("pattern")
+            pattern_regex = pattern.get("Regex")
+
+            if pattern_regex == JOSA_TOKEN:
+                continue
+
+        new_list.append(item)
+
+    tokenizer_json["pre_tokenizer"]["pretokenizers"] = new_list  
+
+    with open(os.path.join(output_dir, "tokenizer.json"), "w", encoding="utf-8") as f:
+        json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
+
 
 if __name__ == "__main__":
     main()
