@@ -68,16 +68,16 @@ def build_special_tokens():
     ]
 
     special_tokens += [SPACE_TOKEN * i for i in range(2, 30)]
-    special_tokens += ["\n" * i for i in range(2, 10)]
-    special_tokens += ["\t" * i for i in range(2, 10)]
+    special_tokens += ["\n" * i for i in range(1, 10)]
+    special_tokens += ["\t" * i for i in range(1, 10)]
     
     return special_tokens
 
 def build_initial_alphabet():
     alphabet = set()
 
-    alphabet.update(chr(c) for c in range(0xAC00, 0xD7A4)) # Hangul Syllables
-    alphabet.update(chr(c) for c in range(0x3131, 0x3164)) # Hangul Compatibility Jamo
+    # alphabet.update(chr(c) for c in range(0xAC00, 0xD7A4)) # Hangul Syllables
+    # alphabet.update(chr(c) for c in range(0x3131, 0x3164)) # Hangul Compatibility Jamo
 
     # Hanja
     with open(BASE_DIR / "../data/hanja_level1.txt", "r", encoding="utf-8") as f:
@@ -98,7 +98,7 @@ def build_initial_alphabet():
 SPECIAL_TOKENS = build_special_tokens()
 INITIAL_ALPHABET = build_initial_alphabet()
 HEX_TOKENS = [f"<0x{i:02X}>" for i in range(256)]
-LIMIT_ALPHABET = 256 + len(INITIAL_ALPHABET)
+LIMIT_ALPHABET = 1000 + len(INITIAL_ALPHABET)
 
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(
