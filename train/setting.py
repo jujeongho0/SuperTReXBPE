@@ -69,7 +69,6 @@ def build_special_tokens():
     
     return special_tokens
 
-
 SPECIAL_TOKENS = build_special_tokens()
 
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
