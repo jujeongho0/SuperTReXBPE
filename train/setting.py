@@ -8,8 +8,6 @@ from tokenizers.models import BPE
 
 from mecab import MeCab
 
-BASE_DIR = Path(__file__).resolve().parent
-
 _HANGUL_RE = re.compile(r"[가-힣]+")
 mecab = MeCab()
 
@@ -71,30 +69,8 @@ def build_special_tokens():
     
     return special_tokens
 
-def build_initial_alphabet():
-    alphabet = set()
-
-    alphabet.update(chr(c) for c in range(0xAC00, 0xD7A4)) # Hangul Syllables
-    alphabet.update(chr(c) for c in range(0x3131, 0x3164)) # Hangul Compatibility Jamo
-
-    # Hanja
-    with open(BASE_DIR / "../data/hanja_level1.txt", "r", encoding="utf-8") as f:
-        alphabet.update(line.strip() for line in f if line.strip())
-
-    # Kanji
-    with open(BASE_DIR / "../data/kanji.txt", "r", encoding="utf-8") as f:
-        alphabet.update(line.strip() for line in f if line.strip())
-
-    # Hiragana
-    alphabet.update(chr(c) for c in range(0x3041, 0x3094))
-
-    # Katakana
-    alphabet.update(chr(c) for c in range(0x30A1, 0x30FA))
-
-    return sorted(alphabet)
 
 SPECIAL_TOKENS = build_special_tokens()
-INITIAL_ALPHABET = build_initial_alphabet()
 
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(BPE())
@@ -126,10 +102,7 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[
-            *SPECIAL_TOKENS,
-            # *INITIAL_ALPHABET
-        ],
+        special_tokens=SPECIAL_TOKENS,
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
@@ -164,10 +137,7 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=[
-            *SPECIAL_TOKENS,
-            # *INITIAL_ALPHABET
-        ],
+        special_tokens=SPECIAL_TOKENS,
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
