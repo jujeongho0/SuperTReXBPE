@@ -19,9 +19,9 @@
     "class": "hf",
     "path": "mistralai/Mistral-Small-4-119B-2603"
   },
-  "Gemma-3":{
+  "Gemma-4":{
     "class": "hf",
-    "path": "google/gemma-3-1b-it"
+    "path": "google/gemma-4-31B-it"
   },
   "K-EXAONE": {
     "class": "hf",
