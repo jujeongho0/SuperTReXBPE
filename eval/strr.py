@@ -32,7 +32,8 @@ def compute_strr(entries, tokenizer):
     single_token_count = sum(
         1
         for entry in entries
-        if len(tokenizer.encode(entry, add_special_tokens=False)) == 1 or len(tokenizer.encode(f" {entry}", add_special_tokens=False)) == 1 # FIXME
+        if len(tokenizer.encode(entry, add_special_tokens=False)) == 1
+        # if len(tokenizer.encode(entry, add_special_tokens=False)) == 1 or len(tokenizer.encode(f" {entry}", add_special_tokens=False)) == 1
     )
 
     return (single_token_count / len(entries)) * 100
