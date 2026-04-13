@@ -55,4 +55,4 @@ run_train () {
     done
 }
 
-run_train config_mn_optimal trex_30gb_128k 90112 131054 supertrexbpe_30gb_88k_extend_128k
+run_train config_mn_optimal trex_30gb_128k 120832 131054 supertrexbpe_30gb_118k_extend_128k
