@@ -241,12 +241,10 @@ def main(
 
     config.update(update_data)
 
-    HEX_TOKENS = {f"<0x{i:02X}>" for i in range(256)}
-
     new_decoder = {}
     for k, v in config["added_tokens_decoder"].items():
         content = v.get("content")
-        if content in HEX_TOKENS:
+        if content in [f"<0x{i:02X}>" for i in range(256)]:
             continue
         new_decoder[k] = v
 
@@ -261,7 +259,7 @@ def main(
     new_added_tokens = []
     for item in tokenizer_json["added_tokens"]:
         content = item.get("content")
-        if content in HEX_TOKENS:
+        if content in [f"<0x{i:02X}>" for i in range(256)]:
             continue
         new_added_tokens.append(item)
 
