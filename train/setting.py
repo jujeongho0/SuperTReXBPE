@@ -56,21 +56,6 @@ def tokenized_corpus(text_files):
                     continue
                 yield tokenize_korean(text)
 
-def build_special_tokens():
-    special_tokens = [
-        "<|startoftext|>", # bos_token
-        "<|return|>", # eos_token
-        "<|endoftext|>", # pad_token
-    ]
-
-    special_tokens += [" " * i for i in range(2, 30)]
-    special_tokens += ["\n" * i for i in range(2, 10)]
-    special_tokens += ["\t" * i for i in range(2, 10)]
-    
-    return special_tokens
-
-SPECIAL_TOKENS = build_special_tokens()
-
 def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_string: str = None):
     tokenizer = Tokenizer(BPE())
 
@@ -98,10 +83,27 @@ def train_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_strin
     
     tokenizer.decoder = decoders.ByteLevel(add_prefix_space=True, trim_offsets=True, use_regex=True)
 
+    added_tokens = []
+    added_tokens += [" " * i for i in range(2, 30)]
+    added_tokens += ["\n" * i for i in range(2, 10)]
+    added_tokens += ["\t" * i for i in range(2, 10)]
+
+    for at in added_tokens:
+        tokenizer.add_tokens(
+            AddedToken(
+                content=at,
+                rstrip=False,
+                lstrip=False,
+                single_word=False,
+                normalized=False,
+                special=False
+            )
+        )
+
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=SPECIAL_TOKENS,
+        special_tokens=["<|startoftext|>", "<|return|>", "<|endoftext|>"],
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
@@ -133,10 +135,27 @@ def extend_tokenizer(text_files: list[str], vocab_size: int = 100000, regex_stri
 
     tokenizer.decoder = decoders.ByteLevel(add_prefix_space=True, trim_offsets=True, use_regex=True)
 
+    added_tokens = []
+    added_tokens += [" " * i for i in range(2, 30)]
+    added_tokens += ["\n" * i for i in range(2, 10)]
+    added_tokens += ["\t" * i for i in range(2, 10)]
+
+    for at in added_tokens:
+        tokenizer.add_tokens(
+            AddedToken(
+                content=at,
+                rstrip=False,
+                lstrip=False,
+                single_word=False,
+                normalized=False,
+                special=False
+            )
+        )
+
     trainer = BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=2,
-        special_tokens=SPECIAL_TOKENS,
+        special_tokens=["<|startoftext|>", "<|return|>", "<|endoftext|>"],
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         show_progress=True,
     )
